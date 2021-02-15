@@ -34,6 +34,75 @@ __ TVOS Only! __
  -> 텍스트가 우측에서 좌측으로 움직임.
  
 이 외의 속성은 텍스트 크기, 텍스트 그림자, 이벤트 관련, 하이라이트 색상, 중첩 그리기 등이 있음
+
+# step 3
+반성 - 일정 조정의 실패로 많이 밀렸다. 시간을 들여 진도를 맞추기로 한다.
+
+IB : Interface Builder
+@는 컴파일러에게 어떤 속성을 가지고있다고 전하는 역할을 하는 예약어이다. 컴파일러에게 @가 붙은 명령어에 대해 어떤 attribute가 부여되었음을 말한다. 아래의 예시처럼 속성이 부여된다.
+
+@IBAction // Interface Builder와 연결된 Action이다.
+@UIApplicationMain // App의 Main이 여기에 있다.
+
+하나의 객체에 여려개의 event를 추가 할 수 있음. -> touchup inside와 outside를 추가하여 확인함.
+여러 객체의 event를 하나의 IBAction에 지정 가능한가? -> 가능, 추가 객체를 선언하여 확인.  
+<img width="300" alt="스크린샷 2021-02-15 오후 1 03 39" src="https://user-images.githubusercontent.com/68788135/107907397-f3250800-6f96-11eb-920d-2614f87cd523.png">
+<img width="300" alt="스크린샷 2021-02-15 오후 1 03 55" src="https://user-images.githubusercontent.com/68788135/107907405-f7512580-6f96-11eb-9f5c-a08ffa95bccd.png">
+<img width="300" alt="스크린샷 2021-02-15 오후 1 03 47" src="https://user-images.githubusercontent.com/68788135/107907409-f91ae900-6f96-11eb-862d-6b76a07d4346.png">
+
+# step 4
+* Show(Push)    
+이 segue는 target view controller의 showViewController:sender: 가 실행된다.
+일반적으로는 source View Controller위에 새로운 컨텐트가 모달로 보여진다.
+몇몇 뷰컨트롤러들은 해당 메소드가 재정의 되어있어서 다른동작을 한다.
+UIKit은 targetViewControllerForAction:sender:메소드로 source View Controller 를 찾는다.  
+* Show Detail (Replace)    
+이 segue는 target view controller 의 showDetailViewController:sender:메소드가 실행된다.
+이 segue는 UISplitViewController 객체 내에 내장된 view controller에 대해서만 관련된 segue이다.
+split view controller는 자식 뷰컨트롤러를 새로운 컨텐츠로 replace합니다.
+나머지 대부분의 view controller에서는 모달로 보여줌
+* Present Modally    이 segue는 view controller를 모달로 보여준다.
+* Present as Popover    기존 view 에 앵커를 둔 컨텐츠를 보여줍니다.
+
+``` swift
+enum UIModalTransitionStyle: Int {
+      case coverVertical 
+  // viewcontroller가 전환될 때 view가 미끄러지듯이 올라오고, dissmiss시 내려가는 기본 transtion스타일
+        case flipHorizontal
+  // 오른쪽에서 왼쪽으로 수평회전을 한다. 🔄 새로 떠오르는 뷰가 이전 뷰의 뒷면에 있던 것처럼 보인다. 뒤집히는 모양의 transition
+        case crossDissolve
+  // 이전 뷰가 흐릿해지고 전환될 뷰가 뚜렷해지는 효과가 동시에 일어난다.
+        case partialCurl
+  // 한 쪽 코너에서 전환될 뷰가 말아 올라오는 형태로 드러난다. UIModalPresentationStyle.fullScreen 에서만 지원되고 , 다른 형태에서 사용시 exception이 발생한다
+}
+```
+
+``` swift
+enum UIModalPresentStyle: Int {
+    case automatic
+  // 시스템이 보여주는 방식을 정한다.
+    case fullScreen
+  // 스크린을 덮는 보여주는 방식
+    case pageSheet
+  // 기본 뷰를 일부분을 덮는 보여주는 방식
+    case formSheet
+  // 스크린의 중앙에 컨텐츠를 보여주는 방식
+    case currentContext
+  // 다른 뷰컨트롤러를 통해 내용을 보여주는 방식
+    case custom
+  // 사용자 정의 animator 객체로 부터 관리되는 보여주는 방식
+    case overFullScreen
+  // 스크린을 덮는 뷰를 보여주는 방식
+    case overCurrentContext
+  // 다른 뷰 컨트롤러의 컨텐츠를 통해 보여주는 방식
+    case blurOverFullScreen
+  // 새로 표현하는 뷰를 보여주기 전에 기존의 뷰를 흐릿하게 하며 보여주는 방식
+    case popover
+  // popover뷰로 보여주는 방식
+    case none
+
+}
+```
 # 진행 방법
 
 - 포토프레임에 대한 요구사항을 파악한다.
